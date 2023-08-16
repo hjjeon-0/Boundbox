@@ -46,12 +46,9 @@ paths:
                 status: 201
       requestBody:
         content:
-          3d_image/igs:
-            schema:
-              $ref: '#/components/schemas/RequestBody_file'
           application/json:
             schema:
-              $ref: '#/components/schemas/RequestBody_file_name'
+              $ref: '#/components/schemas/RequestBody_Bbox'
 servers:
   - url: http://ec2-52-79-123-200.ap-northeast-2.compute.amazonaws.com:8090/v1
     description: Production server
@@ -68,11 +65,10 @@ components:
       description: Respresentation of all words response.
       type: object
       properties:
-        result:
-          $ref: '#/components/schemas/BoundboxInfo'
+        $ref: '#/components/schemas/BoundboxInfo'
     BoundboxInfo:
       description: 3D 도면 바운딩 박스 추출 결과
-      type: object
+      type: array
       properties:
         file_name:
           description: 3D file 명
@@ -86,19 +82,14 @@ components:
         boundBoxLZ:
           description: Z값 크기
           type: float
-    RequestBody_file_name:
-      description: Request file name
-      required: ["file_name"]
+    RequestBody_Bbox:
+      description: Request file-name and file
+      required: ["file_name", "file_3d"]
       type: object
       properties:
         file_name:
           type: string
-    
-    RequestBody_file:
-      description: Invalid extension is only igs and stp.
-      required: ["file_3d"]
-      type: string
-      properties:
-        file_name:
-          type: string
+        file_3d:
+          type: file
           format: binary
+          description: file extension must be .igs or .stp
