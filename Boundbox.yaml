@@ -63,11 +63,6 @@ components:
   schemas:
     Response_Boundbox:
       description: Respresentation of all words response.
-      type: object
-      properties:
-        $ref: '#/components/schemas/BoundboxInfo'
-    BoundboxInfo:
-      description: 3D 도면 바운딩 박스 추출 결과
       type: array
       properties:
         file_name:
@@ -89,7 +84,9 @@ components:
       properties:
         file_name:
           type: string
+          description: 3D file 경로
+          example: "~/p_0b0c4a17-f7f6-45c5-867e-58db7e2ce2cb_1.igs"
         file_3d:
           type: file
           format: binary
-          description: file extension must be .igs or .stp
+          description: 실제 3D file(* stp, igs 파일만 가능)
