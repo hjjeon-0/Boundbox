@@ -44,6 +44,13 @@ paths:
               example:
                 error: Undocumented
                 status: 201
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              example:
+                error: unauthorized
+                status: 401
       requestBody:
         content:
           application/json:
@@ -53,7 +60,7 @@ servers:
   - url: http://ec2-52-79-123-200.ap-northeast-2.compute.amazonaws.com:8090/v1
     description: Production server
 security:
-  - APIKeyAuth: []
+  - APIKeyAuth: ['Insert API-Key in here.']
 components:
   securitySchemes:
     APIKeyAuth:
