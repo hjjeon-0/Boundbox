@@ -6,7 +6,7 @@ info:
     3D도면 바운딩 박스 추출
     - 3D도면을 업로드하여 3D도면의 바운딩박스 값을 추출하는 기능입니다.
   x-logo: 
-    url: 'https://hjjeon-0.github.io/BoundBox/MoldON_logo.png'
+    url: 'https://hjjeon-0.github.io/Boundbox/MoldON_logo.png'
     altText: A Logo image of MoldON
 paths:
   /Boundbox:
@@ -29,23 +29,29 @@ paths:
           content:
             application/json:
               example:
-                result:
+                file_name: 3D_file_name
+                boundBoxLX: 125.1
+                boundBoxLY: 125.1
+                boundBoxLZ: 125.1
               schema:
                 type: array
                 items:
                   $ref: '#/components/schemas/Response_Boundbox'
-        '415':
-          description: Unsupported Media Type
+        '201':
+          description: Undocumented
           content:
             application/json:
               example:
-                error: Unsupported Media Type
-                status: 415
+                error: Undocumented
+                status: 201
       requestBody:
         content:
+          3d_image/igs:
+            schema:
+              $ref: '#/components/schemas/RequestBody_file'
           application/json:
             schema:
-              $ref: '#/components/schemas/Request_Body_Boundbox'
+              $ref: '#/components/schemas/RequestBody_file_name'
 servers:
   - url: http://ec2-52-79-123-200.ap-northeast-2.compute.amazonaws.com:8090/v1
     description: Production server
@@ -57,7 +63,6 @@ components:
       type: apiKey
       name: x-mold-apigw-api-key
       in: header
-
   schemas:
     Response_Boundbox:
       description: Respresentation of all words response.
@@ -81,12 +86,19 @@ components:
         boundBoxLZ:
           description: Z값 크기
           type: float
-    Request_Body_Boundbox:
-      description: Request filepath and file.
-      required: ["file_name", "file_3d"]
+    RequestBody_file_name:
+      description: Request file name
+      required: ["file_name"]
       type: object
       properties:
         file_name:
           type: string
-        file_3d:
-          type: file
+    
+    RequestBody_file:
+      description: Invalid extension is only igs and stp.
+      required: ["file_3d"]
+      type: string
+      properties:
+        file_name:
+          type: string
+          format: binary
