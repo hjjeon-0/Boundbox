@@ -29,7 +29,7 @@ paths:
           content:
             application/json:
               example:
-                file_name: 3D_file_name
+                file_name: "~/p_0b0c4a17-f7f6-45c5-867e-58db7e2ce2cb_1.igs"
                 boundBoxLX: 125.1
                 boundBoxLY: 125.1
                 boundBoxLZ: 125.1
@@ -63,7 +63,7 @@ components:
   schemas:
     Response_Boundbox:
       description: Respresentation of all words response.
-      type: array
+      type: object
       properties:
         file_name:
           description: 3D file 명
