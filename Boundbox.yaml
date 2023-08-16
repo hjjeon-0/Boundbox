@@ -1,0 +1,92 @@
+openapi: 3.0.2
+info:
+  title: MoldON API V1
+  version: 1.0.0
+  description: |-
+    3D도면 바운딩 박스 추출
+    - 3D도면을 업로드하여 3D도면의 바운딩박스 값을 추출하는 기능입니다.
+  x-logo: 
+    url: 'https://hjjeon-0.github.io/BoundBox/MoldON_logo.png'
+    altText: A Logo image of MoldON
+paths:
+  /Boundbox:
+    post:
+      summary: Boundbox
+      tags:
+        - 3D도면 바운딩 박스 추출
+      description: >-
+        3D 도면 바운딩 박스 추출
+      parameters: 
+        - in: formData
+          name: file_3d
+          type: file
+          description: The 3d file to upload.
+      security:
+        - APIKeyAuth: []
+      responses:
+        '200':
+          description: successfully authenticated
+          content:
+            application/json:
+              example:
+                result:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Response_Boundbox'
+        '415':
+          description: Unsupported Media Type
+          content:
+            application/json:
+              example:
+                error: Unsupported Media Type
+                status: 415
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Request_Body_Boundbox'
+servers:
+  - url: http://ec2-52-79-123-200.ap-northeast-2.compute.amazonaws.com:8090/v1
+    description: Production server
+security:
+  - APIKeyAuth: []
+components:
+  securitySchemes:
+    APIKeyAuth:
+      type: apiKey
+      name: x-mold-apigw-api-key
+      in: header
+
+  schemas:
+    Response_Boundbox:
+      description: Respresentation of all words response.
+      type: object
+      properties:
+        result:
+          $ref: '#/components/schemas/BoundboxInfo'
+    BoundboxInfo:
+      description: 3D 도면 바운딩 박스 추출 결과
+      type: object
+      properties:
+        file_name:
+          description: 3D file 명
+          type: string
+        boundBoxLX:
+          description: X값 크기
+          type: float
+        boundBoxLY:
+          description: Y값 크기
+          type: float
+        boundBoxLZ:
+          description: Z값 크기
+          type: float
+    Request_Body_Boundbox:
+      description: Request filepath and file.
+      required: ["file_name", "file_3d"]
+      type: object
+      properties:
+        file_name:
+          type: string
+        file_3d:
+          type: file
